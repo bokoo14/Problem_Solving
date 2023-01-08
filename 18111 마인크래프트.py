@@ -20,7 +20,7 @@ for i in range(257): # 256층 모두를 검사
         continue
 
     time=(get*2)+use
-    if time<=answer: # 
+    if time<=answer: # 최소 시간을 저장
         answer=time
         level=i
 
