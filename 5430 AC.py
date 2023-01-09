@@ -33,5 +33,4 @@ for i in range(t):
     elif answer==1 and R%2==1:
         number.reverse()
         print("["+",".join(number)+"]")
-
-
+        
