@@ -69,7 +69,7 @@ def bfs(x, y, z):
     while queue:
         a, b, c=queue.popleft()
         if a==N-1 and b==M-1:
-            return distance[N-1][M-1][c]
+            return distance[a][b][c]
 
         for i in range(4):
             nx=a+dx[i]
