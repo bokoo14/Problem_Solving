@@ -34,6 +34,7 @@ for i in range(maxDepth):
     area=0
     for r in range(n):
         for c in range(n):
+            # 물의 높이보다 높고 방문하지 않았다면 새로운 안전한 영역
             if graph[r][c]>i and not visited[r][c]:
                 bfs(r, c, i, visited)
                 area+=1
