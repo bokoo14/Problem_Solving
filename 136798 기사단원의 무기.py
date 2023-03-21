@@ -9,9 +9,6 @@ def solution(number, limit, power):
                     tmp += 1
                 else: # 제곱근이 아닐 경우
                     tmp += 2 
-        if tmp > limit: 
-            if i%j==0: # 약수라면 약수의 개수 count
-                tmp +=1
         if tmp > limit:
             answer += power
         else:
