@@ -2,15 +2,25 @@
 import sys
 input = sys.stdin.readline
 
-a, b = map(int, input().split())
+a, b = map(int, input().split()) # 가로, 세로
 n, m = map(int, input().split())
+board = [[0]*(a) for _ in range(b)]
+NESW = {"N":0, "E":1, "S":2, "W":3}
+direction = [[0, -1],[1, 0],[0, 1],[-1, 0]] # N, E, S, W
+
+# 로봇의 초기 위치
 robot = [[] for _ in range(n)]
 for i in range(n):
-    a, b, c = map(str, input().split())
-    robot[i].append([int(a), int(b), c])
+    ra, rb, rc = input().split() # x, y, 방향
+    robot[i].append([ra, rb, NESW[rc]])
+    x = int(a)-1
+    y = b- int(rb)
+    board[x][y] = i+1
 
+# 명령
 order = [[] for _ in range(m)]
 for i in range(m):
-    a, b, c = map(str, input().split())
-    order[i].append([int(a), b, c])
+    ca, cb, cc = input().split() # 명령을 내리는 로봇, 종류, 반복회수
+    order[i].append([ca, NESW[cb], cc])
+
 
