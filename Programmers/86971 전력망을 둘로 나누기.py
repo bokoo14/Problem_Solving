@@ -1,43 +1,43 @@
-# 프로그래머스 86971 전력망을 둘로 나누기 - 완전 탐색
+from collections import deque
+
+def bfs(graph, start, visited):
+    # 큐(Queue) 구현을 위해 deque 라이브러리 사용
+    queue = deque([start])
+    # 현재 노드를 방문 처리
+    visited[start] = True
+    cnt = 0
+    # 큐가 빌 때까지 반복
+    while queue:
+        # 큐에서 하나의 원소를 뽑아 출력
+        v = queue.popleft()
+        cnt += 1
+        # 해당 원소와 연결된, 아직 방문하지 않은 원소들을 큐에 삽입
+        for i in graph[v]:
+            if not visited[i]:
+                queue.append(i)
+                visited[i] = True
+    return cnt
 
 
-# 전력망을 둘로 나누었을 때, 두 전력망의 송전탑 개수의 차이를 최소화
-# 전력망을 둘로 나누는 방법은 전력망을 구성하는 모든 선분 중 하나를 제거하는 것
 def solution(n, wires):
-    answer = 10**9
-
-    graph = [[] for _ in range(n + 1)]
-    for a, b in wires:
-        graph[a].append(b)
-        graph[b].append(a)
-
-    # 모든 선분을 하나씩 제거해보면서 송전탑 개수의 차이를 구함
+    answer = n - 2 #  두 전력망이 갖게 되는 송전탑의 개수 차이의 절댓값 중 최댓값 (만약 n이 9일때 최대 절댓값은 두 전력망이 1과 8일때 즉 7이된다.)
     for i in range(len(wires)):
-        # i번째 선분 제거
-        graph[wires[i][0]].remove(wires[i][1])
-        graph[wires[i][1]].remove(wires[i][0])
-
-        # BFS
-        visited = [False] * (n + 1)
-        queue = [1]
-        visited[1] = True
-        cnt = 0  # 송전탑의 개수
-
-        while queue:
-            v = queue.pop(0)
-            cnt += 1
-            for j in graph[v]:
-                if not visited[j]:  # 방문하지 않았다면
-                    queue.append(j)
-                    visited[j] = True
-
-        answer = min(abs((n - cnt) - cnt), answer)
-
-        # i번째 선분 복구
-        graph[wires[i][0]].append(wires[i][1])
-        graph[wires[i][1]].append(wires[i][0])
-
-        return answer  # 송전탑 개수의 차이
-
+        tmps = wires.copy()
+        graph = [[] for i in range(n+1)]
+        visited = [False] * (n+1)
+        tmps.pop(i) # i번째 전선 제거
+        for wire in tmps:
+            x, y = wire
+            graph[x].append(y)
+            graph[y].append(x)
+        for idx,g in enumerate(graph):
+            if g != []: # n개의 송전탑 중 다른 송전탑과 연결된 송전탑을 시작점으로 지정
+                start = idx
+                break
+        cnts = bfs(graph, start, visited) # bfs를 이용하여 시작점에서 다른 송전탑 탐색함. 이때 탐색 가능한 송전탑 개수를 cnts에 담음(이는 즉 연결된 송전탑의 개수임)
+        other_cnts = n - cnts # 전력망을 둘로 나눌 때 첫번째 전력망 개수는 cnts이므로 나머지 전력망 개수는 n - cnts로 구한다.
+        if abs(cnts - other_cnts) < answer:
+            answer = abs(cnts - other_cnts)
+    return answer
 
 print(solution(9, [[1, 3], [2, 3], [3, 4], [4, 5], [4, 6], [4, 7], [7, 8], [7, 9]]))

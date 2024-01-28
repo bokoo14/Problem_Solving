@@ -1,32 +1,4 @@
 # 2023.05.30
-"""
-from collections import deque
-
-def solution(n, computers):
-    answer = 0  # 네트워크의 개수
-    visited = [0] * n
-    q = deque()
-
-    def BFS(start):
-        q.append(start)
-        while q:
-            tmp = q.popleft()
-            if visited[tmp] == 0:  # 방문 안함
-                visited[tmp] = 1
-            for i in range(len(computers)):  # 연결된 모든 노드를 찾아봄
-                if computers[tmp][i] == 1 and visited[i] == 0:
-                    q.append(i)
-
-    while 0 in visited:
-        answer += 1
-        BFS(visited.index(0))
-    return answer
-
-
-print(solution(3, [[1, 1, 0], [1, 1, 0], [0, 0, 1]]))
-
-
-"""
 from collections import deque
 
 
